@@ -103,7 +103,7 @@ const TimesheetPage = () => {
       try {
         // Fetch employee profile data
         const responseUserProfiles = await axios.get(
-          "http://localhost:5000/api/UserProfiles"
+          "http://192.168.125.23:5000/api/UserProfiles"
         );
 
         // Table filters
@@ -143,7 +143,7 @@ const TimesheetPage = () => {
 
         // Fetch timesheet data
         const responseTimesheet = await axios.get(
-          "http://localhost:5000/api/Timesheet"
+          "http://192.168.125.23:5000/api/Timesheet"
         );
 
         const filteredData = responseTimesheet.data.filter((item) => {
@@ -263,7 +263,7 @@ const TimesheetPage = () => {
       const userId = 'dasni-development';
 
       try {
-        const response = await fetch('http://localhost:5000/api/updateEmployeeHours', {
+        const response = await fetch('http://192.168.125.23:5000/api/updateEmployeeHours', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

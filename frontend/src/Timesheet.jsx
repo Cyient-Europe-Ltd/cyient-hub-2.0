@@ -103,7 +103,7 @@ const TimesheetPage = () => {
       try {
         // Fetch employee profile data
         const responseUserProfiles = await axios.get(
-          "https://hubv2.cyienteurope.com:5000/api/UserProfiles"
+          "https://hubv2.cyienteurope.com/api/UserProfiles"
         );
 
         // Table filters
@@ -143,7 +143,7 @@ const TimesheetPage = () => {
 
         // Fetch timesheet data
         const responseTimesheet = await axios.get(
-          "https://hubv2.cyienteurope.com:5000/api/Timesheet"
+          "https://hubv2.cyienteurope.com/api/Timesheet"
         );
 
         const filteredData = responseTimesheet.data.filter((item) => {
@@ -263,7 +263,7 @@ const TimesheetPage = () => {
       const userId = 'dasni-development';
 
       try {
-        const response = await fetch('https://hubv2.cyienteurope.com:5000/api/updateEmployeeHours', {
+        const response = await fetch("https://hubv2.cyienteurope.com/api/updateEmployeeHours", {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

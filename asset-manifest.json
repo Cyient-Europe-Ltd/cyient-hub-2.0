@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/cyient-hub-2.0/static/css/main.e6c13ad2.css",
+    "main.js": "/cyient-hub-2.0/static/js/main.16b40255.js",
+    "index.html": "/cyient-hub-2.0/index.html",
+    "main.e6c13ad2.css.map": "/cyient-hub-2.0/static/css/main.e6c13ad2.css.map",
+    "main.16b40255.js.map": "/cyient-hub-2.0/static/js/main.16b40255.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.16b40255.js"
+  ]
+}

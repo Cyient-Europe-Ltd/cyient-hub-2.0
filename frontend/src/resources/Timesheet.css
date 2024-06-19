@@ -1,0 +1,108 @@
+/* Heading styles */
+.timesheet-heading-1 {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    color: #525252;
+    font-size: 30px;
+    font-family: "Barlow", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+  
+  .timesheet-heading-2 {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    color: #08a4dc;
+    font-size: 20px;
+    font-family: "Barlow", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+  }
+  
+  /* Container styles */
+  .timesheet-container {
+    padding: 3rem;
+  }
+  
+  /* Form field styles */
+  .timesheet-field {
+    width: 150px;
+    margin-right: 10px;
+  }
+  
+  /* Table styles */
+  .timesheet-table-container {
+    overflow-x: scroll;
+    overflow-y: scroll;
+    width: 100%;
+    height: 60vh;
+  }
+  
+  .timesheet-table {
+    table-layout: auto;
+    border-collapse: collapse;
+  }
+  
+  .timesheet-table th {
+    white-space: nowrap;
+    border: 1px solid #cfd4d1;
+    font-weight: bold;
+    font-size: 15px;
+    left: 0;
+    z-index: 2;
+    background-color: #08a4dc;
+    color: white;
+    text-align: center;
+    padding: 10px;
+  }
+  
+  .timesheet-table td {
+    white-space: nowrap;
+    border: 1px solid #cfd4d1;
+    font-size: 12.5px;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+  }
+  
+  .timesheet-table-cell {
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+  }
+  
+  .timesheet-table-cell-weekend {
+    background-color: #f2f2f2;
+  }
+  
+  .timesheet-table-cell-H {
+    background-color: #bdeafc;
+  }
+  
+  .timesheet-table-cell-S {
+    background-color: #b1fac2;
+  }
+  
+  /* Popup dialog styles */
+  .timesheet-dialog {
+    width: 300px;
+  }
+  
+  .timesheet-dialog-title {
+    text-align: center;
+  }
+  
+  .timesheet-dialog-content {
+    text-align: center;
+  }
+  
+  .timesheet-dialog-actions {
+    justify-content: center;
+  }
+  

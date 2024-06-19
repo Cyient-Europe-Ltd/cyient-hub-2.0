@@ -1,0 +1,13 @@
+.footer {
+  background: #08a4dc;
+  color: white;
+  padding: 30px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  font-size: 15px;
+  font-family: "Barlow", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}

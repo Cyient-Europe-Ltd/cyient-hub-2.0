@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Header from "./components/TitleSubtitleTheme";
 import { useMode } from "./components/ColorTheme";
+import "./resources/Timesheet.css";
 import {
   Box,
   ThemeProvider,
@@ -19,6 +19,7 @@ import {
   DialogActions,
   Button,
   Select,
+  Typography,
 } from "@mui/material";
 import axios from "axios";
 
@@ -204,18 +205,11 @@ const TimesheetPage = () => {
             selectedTeam === "All" || item.Team === selectedTeam;
           const matchesAgency =
             selectedAgency === "All" || item.Agency === selectedAgency;
-          return (
-            matchesName &&
-            matchesRole &&
-            matchesTeam &&
-            matchesAgency
-          );
+          return matchesName && matchesRole && matchesTeam && matchesAgency;
         });
 
         // Set filtered rows to the table variable
         setEmployeeWorkingHours(filteredRows);
-        console.log(filteredRows);
-        
       } catch (err) {
         setError(err.message);
       } finally {
@@ -224,7 +218,6 @@ const TimesheetPage = () => {
     };
 
     fetchData();
-
   }, [
     // Refresh the table if any filter is changed.
     selectedMonth,
@@ -243,7 +236,7 @@ const TimesheetPage = () => {
         `Day ${day} Working Hours`
       ] || ""
     );
-  }; 
+  };
 
   // Function to handle updating working hours and closing the popup box
   const handleUpdateWorkingHours = async () => {
@@ -251,22 +244,38 @@ const TimesheetPage = () => {
     const index = updatedEmployeeWorkingHours.findIndex(
       (employee) => employee.AutoID === editingCell.employeeId
     );
-    updatedEmployeeWorkingHours[index][`Day ${editingCell.day} Working Hours`] = newWorkingHours;
+    updatedEmployeeWorkingHours[index][`Day ${editingCell.day} Working Hours`] =
+      newWorkingHours;
     setEmployeeWorkingHours(updatedEmployeeWorkingHours);
 
-  // Update holidays and sickdays
-      const employeeId = editingCell.employeeId;
-      const selectedDate = `${selectedYear}-${String(selectedMonth).padStart(2, '0')}-${String(editingCell.day).padStart(2, '0')} 00:00:00.0000000`;
-      const changedBy = 'dasni-development';
-      const nowDateAndTime = new Date();
-      const dateOfChange = `${nowDateAndTime.getFullYear()}-${String(nowDateAndTime.getMonth() + 1).padStart(2, '0')}-${String(nowDateAndTime.getDate()).padStart(2, '0')} ${String(nowDateAndTime.getHours()).padStart(2, '0')}:${String(nowDateAndTime.getMinutes()).padStart(2, '0')}:${String(nowDateAndTime.getSeconds()).padStart(2, '0')}.${String(nowDateAndTime.getMilliseconds()).padStart(7, '0')}`;
-      const userId = 'dasni-development';
+    // Update holidays and sickdays
+    const employeeId = editingCell.employeeId;
+    const selectedDate = `${selectedYear}-${String(selectedMonth).padStart(
+      2,
+      "0"
+    )}-${String(editingCell.day).padStart(2, "0")} 00:00:00.0000000`;
+    const changedBy = "dasni-development";
+    const nowDateAndTime = new Date();
+    const dateOfChange = `${nowDateAndTime.getFullYear()}-${String(
+      nowDateAndTime.getMonth() + 1
+    ).padStart(2, "0")}-${String(nowDateAndTime.getDate()).padStart(
+      2,
+      "0"
+    )} ${String(nowDateAndTime.getHours()).padStart(2, "0")}:${String(
+      nowDateAndTime.getMinutes()
+    ).padStart(2, "0")}:${String(nowDateAndTime.getSeconds()).padStart(
+      2,
+      "0"
+    )}.${String(nowDateAndTime.getMilliseconds()).padStart(7, "0")}`;
+    const userId = "dasni-development";
 
-      try {
-        const response = await fetch("https://hubv2.cyienteurope.com/api/updateEmployeeHours", {
-          method: 'POST',
+    try {
+      const response = await fetch(
+        "https://hubv2.cyienteurope.com/api/updateEmployeeHours",
+        {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             employeeId,
@@ -274,252 +283,199 @@ const TimesheetPage = () => {
             newWorkingHours,
             changedBy,
             dateOfChange,
-            userId
+            userId,
           }),
-        });
-        if (response.ok) {
-          console.log('Successfully updated employee hours');
-        } else {
-          console.error('Failed to update employee hours');
         }
-      } catch (error) {
-        console.error('Error:', error);
+      );
+      if (response.ok) {
+        console.log("Successfully updated employee hours");
+      } else {
+        console.error("Failed to update employee hours");
       }
-  
+    } catch (error) {
+      console.error("Error:", error);
+    }
+
     setEditingCell(null);
-    setNewWorkingHours('');
-  };  
+    setNewWorkingHours("");
+  };
+
+  const fieldStyle = {
+    width: "150px",
+    marginRight: "10px",
+    marginBottom: "10px",
+  };
 
   return (
     <ThemeProvider theme={theme}>
-      <Box
-        sx={{
-          backgroundColor: theme.palette.background.default,
-          color: theme.palette.text.primary,
-          p: 3,
-        }}
-      >
-        {/* <Header
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-          title="TIMESHEET"
-          subtitle={`${monthNames[selectedMonth - 1]}, ${selectedYear}`}
-        /> */}
-
-        <h2 style={{alignItems: "center", display: "flex", justifyContent: "center", fontWeight: "bold", color: "#525252", fontFamily: "Roboto"}}> TIMESHEET </h2>
-        <h3 style={{alignItems: "center", display: "flex", justifyContent: "center", fontWeight: "bold", color: "#08a4dc", fontFamily: "Roboto"}}>{`${monthNames[selectedMonth - 1]}, ${selectedYear}`} </h3>
-
+      <Box className="timesheet-container">
         <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            mb: 3,
-          }}
+          display="flex"
+          flexWrap="wrap"
+          justifyContent="space-between"
+          alignItems="center"
         >
-          <TextField
-            style={{ width: 150}}
-            select
-            label="Name"
-            value={selectedName}
-            onChange={(e) => setSelectedName(e.target.value)}
-            variant="outlined"
-          >
-            {/* Adding "All" option */}
-            <MenuItem key="All" value="All">
-              All
-            </MenuItem>
-            {employeeNames.map((name) => (
-              <MenuItem key={name} value={name}>
-                {name}
-              </MenuItem>
-            ))}
-          </TextField>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <h2
+              className="timesheet-heading-1"
+              style={{ margin: 0, marginLeft: "100px" }}
+            >
+              TIMESHEET
+            </h2>
+            <h3
+              className="timesheet-heading-2"
+              style={{ margin: 0, marginLeft: "10px", textTransform: "uppercase"}}
+            >
+              {`${monthNames[selectedMonth - 1]}, ${selectedYear}`}
+            </h3>
+          </div>
 
-          <TextField
-            style={{ width: 110 }}
-            select
-            label="Role"
-            fontSize="15px"
-            value={selectedRole}
-            onChange={(e) => setSelectedRole(e.target.value)}
-            variant="outlined"
+          <Box
+            display="flex"
+            flexWrap="wrap"
+            justifyContent="center"
+            flexGrow={1}
           >
-            {/* Adding "All" option */}
-            <MenuItem key="All" value="All">
-              All
-            </MenuItem>
-            {employeeRole.map((role) => (
-              <MenuItem key={role} value={role}>
-                {role}
+            <TextField
+              style={fieldStyle}
+              select
+              label="Name"
+              value={selectedName}
+              onChange={(e) => setSelectedName(e.target.value)}
+              variant="outlined"
+            >
+              <MenuItem key="All" value="All">
+                All
               </MenuItem>
-            ))}
-          </TextField>
+              {employeeNames.map((name) => (
+                <MenuItem key={name} value={name}>
+                  {name}
+                </MenuItem>
+              ))}
+            </TextField>
 
-          <TextField
-            style={{ width: 150 }}
-            select
-            label="Team"
-            value={selectedTeam}
-            onChange={(e) => setSelectedTeam(e.target.value)}
-            variant="outlined"
-          >
-            {/* Adding "All" option */}
-            <MenuItem key="All" value="All">
-              All
-            </MenuItem>
-            {employeeTeam.map((team) => (
-              <MenuItem key={team} value={team}>
-                {team}
+            <TextField
+              style={fieldStyle}
+              select
+              label="Role"
+              value={selectedRole}
+              onChange={(e) => setSelectedRole(e.target.value)}
+              variant="outlined"
+            >
+              <MenuItem key="All" value="All">
+                All
               </MenuItem>
-            ))}
-          </TextField>
+              {employeeRole.map((role) => (
+                <MenuItem key={role} value={role}>
+                  {role}
+                </MenuItem>
+              ))}
+            </TextField>
 
-          <TextField
-            style={{ width: 150 }}
-            select
-            label="Agency"
-            value={selectedAgency}
-            onChange={(e) => setSelectedAgency(e.target.value)}
-            variant="outlined"
-          >
-            {/* Adding "All" option */}
-            <MenuItem key="All" value="All">
-              All
-            </MenuItem>
-            {employeeAgency.map((agency) => (
-              <MenuItem key={agency} value={agency}>
-                {agency}
+            <TextField
+              style={fieldStyle}
+              select
+              label="Team"
+              value={selectedTeam}
+              onChange={(e) => setSelectedTeam(e.target.value)}
+              variant="outlined"
+            >
+              <MenuItem key="All" value="All">
+                All
               </MenuItem>
-            ))}
-          </TextField>
+              {employeeTeam.map((team) => (
+                <MenuItem key={team} value={team}>
+                  {team}
+                </MenuItem>
+              ))}
+            </TextField>
 
-          <TextField
-            style={{ width: 150 }}
-            select
-            label="Year"
-            value={selectedYear}
-            onChange={(e) => setSelectedYear(e.target.value)}
-            variant="outlined"
-          >
-            {/* Mapping through the last 10 years */}
-            {lastFiveYears.map((year) => (
-              <MenuItem key={year} value={year}>
-                {year}
+            <TextField
+              style={fieldStyle}
+              select
+              label="Agency"
+              value={selectedAgency}
+              onChange={(e) => setSelectedAgency(e.target.value)}
+              variant="outlined"
+            >
+              <MenuItem key="All" value="All">
+                All
               </MenuItem>
-            ))}
-          </TextField>
+              {employeeAgency.map((agency) => (
+                <MenuItem key={agency} value={agency}>
+                  {agency}
+                </MenuItem>
+              ))}
+            </TextField>
 
-          <TextField
-            style={{ width: 150 }}
-            select
-            label="Month"
-            value={selectedMonth}
-            onChange={(e) => setSelectedMonth(e.target.value)}
-            variant="outlined"
-          >
-            {/* Mapping through the 12 months */}
-            {months.map((month) => (
-              <MenuItem key={month} value={month}>
-                {new Date(0, month - 1).toLocaleString("default", {
-                  month: "long",
-                })}
-              </MenuItem>
-            ))}
-          </TextField>
+            <TextField
+              style={fieldStyle}
+              select
+              label="Year"
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(e.target.value)}
+              variant="outlined"
+            >
+              {lastFiveYears.map((year) => (
+                <MenuItem key={year} value={year}>
+                  {year}
+                </MenuItem>
+              ))}
+            </TextField>
+
+            <TextField
+              style={fieldStyle}
+              select
+              label="Month"
+              value={selectedMonth}
+              onChange={(e) => setSelectedMonth(e.target.value)}
+              variant="outlined"
+            >
+              {months.map((month) => (
+                <MenuItem key={month} value={month}>
+                  {new Date(0, month - 1).toLocaleString("default", {
+                    month: "long",
+                  })}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Box>
         </Box>
 
-        <Box sx={{ overflowX: "100%", width: "100%", height: "100vh" }}>
-          <TableContainer
-            component={Paper}
-            style={{ border: "1px solid #cfd4d1" }}
-          >
-            <Table style={{ tableLayout: "auto", borderCollapse: "collapse", overflow: "hidden" }}>
+        <Paper sx={{ width: "100%", overflow: "hidden" }}>
+          <TableContainer sx={{ maxHeight: 550 }}>
+            <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
                   <TableCell
-                    style={{
-                      whiteSpace: "nowrap",
-                      border: "1px solid #cfd4d1",
-                      fontWeight: "bold",
-                      fontSize: "15px",
-                      left: 0,
-                      zIndex: 2,
-                      backgroundColor: "#08a4dc",
-                      color: "white",
-                      textAlign: "center",
-                      padding: "10px",
-                    }}
+                    align="left"
+                    style={{ minWidth: 130, backgroundColor: "#f2f2f2" }}
                   >
                     Name
                   </TableCell>
                   <TableCell
-                    style={{
-                      whiteSpace: "nowrap",
-                      border: "1px solid #cfd4d1",
-                      fontWeight: "bold",
-                      fontSize: "15px",
-                      left: 0,
-                      zIndex: 1,
-                      backgroundColor: "#08a4dc",
-                      color: "white",
-                      textAlign: "center",
-                      padding: "10px",
-                    }}
+                    align="center"
+                    style={{ minWidth: 100, backgroundColor: "#f2f2f2" }}
                   >
                     Role
                   </TableCell>
                   <TableCell
-                    style={{
-                      whiteSpace: "nowrap",
-                      border: "1px solid #cfd4d1",
-                      fontWeight: "bold",
-                      fontSize: "15px",
-                      left: 0,
-                      zIndex: 1,
-                      backgroundColor: "#08a4dc",
-                      color: "white",
-                      textAlign: "center",
-                      padding: "10px",
-                    }}
+                    align="center"
+                    style={{ minWidth: 100, backgroundColor: "#f2f2f2" }}
                   >
                     Team
                   </TableCell>
                   <TableCell
-                    style={{
-                      whiteSpace: "nowrap",
-                      border: "1px solid #cfd4d1",
-                      fontWeight: "bold",
-                      fontSize: "15px",
-                      left: 0,
-                      zIndex: 1,
-                      backgroundColor: "#08a4dc",
-                      color: "white",
-                      textAlign: "center",
-                      padding: "10px",
-                    }}
+                    align="center"
+                    style={{ minWidth: 100, backgroundColor: "#f2f2f2" }}
                   >
                     Agency
                   </TableCell>
                   {[...Array(daysInMonth).keys()].map((day) => (
                     <TableCell
                       key={day}
-                      style={{
-                        whiteSpace: "nowrap",
-                        border: "1px solid #cfd4d1",
-                        fontWeight: "bold",
-                        fontSize: "12px",
-                        left: 0,
-                        zIndex: 1,
-                        backgroundColor: "#08a4dc",
-                        color: "white",
-                        textAlign: "center",
-                        padding: "10px",
-                        lineHeight: "1.2"
-                      }}
+                      align="center"
+                      style={{ minWidth: 10, backgroundColor: "#f2f2f2" }}
                     >
                       {getDayNameAndDate(day + 1)}
                     </TableCell>
@@ -528,79 +484,29 @@ const TimesheetPage = () => {
               </TableHead>
               <TableBody>
                 {employeeWorkingHours.map((employee, index) => (
-                  <TableRow key={index}>
-                    <TableCell
-                      style={{
-                        whiteSpace: "nowrap",
-                        border: "1px solid #cfd4d1",
-                        fontSize: "12.5px",
-                        fontWeight: "bold",
-                        left: 0,
-                        zIndex: 1,
-                        padding: "5px",
-                      }}
-                    >
-                      {employee.Name}
-                    </TableCell>
-                    <TableCell
-                      style={{
-                        whiteSpace: "nowrap",
-                        border: "1px solid #cfd4d1",
-                        fontSize: "12.5px",
-                        fontWeight: "bold",
-                        textAlign: "center",
-                        padding: "5px",
-                      }}
-                    >
-                      {employee.Role}
-                    </TableCell>
-                    <TableCell
-                      style={{
-                        whiteSpace: "nowrap",
-                        border: "1px solid #cfd4d1",
-                        fontSize: "12.5px",
-                        fontWeight: "bold",
-                        textAlign: "center",
-                        padding: "5px",
-                      }}
-                    >
-                      {employee.Team}
-                    </TableCell>
-                    <TableCell
-                      style={{
-                        whiteSpace: "nowrap",
-                        border: "1px solid #cfd4d1",
-                        fontSize: "12.5px",
-                        fontWeight: "bold",
-                        textAlign: "center",
-                        padding: "5px",
-                      }}
-                    >
-                      {employee.Agency}
-                    </TableCell>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+                    <TableCell align="left">{employee.Name}</TableCell>
+                    <TableCell align="center">{employee.Role}</TableCell>
+                    <TableCell align="center">{employee.Team}</TableCell>
+                    <TableCell align="center">{employee.Agency}</TableCell>
                     {[...Array(daysInMonth).keys()].map((day) => (
                       <TableCell
                         key={day}
-                        style={{
-                          whiteSpace: "nowrap",
-                          border: "1px solid #cfd4d1",
-                          cursor: "pointer",
-                          fontSize: "12px",
-                          fontWeight: "bold",
-                          textAlign: "center",
-                          padding: "5px",
-                          backgroundColor:
-                            employee[`Day ${day + 1} Working Hours`] === "H"
-                              ? "#bdeafc"
-                              : employee[`Day ${day + 1} Working Hours`] === "S"
-                              ? "#b1fac2"
-                              : isWeekend(day + 1)
-                              ? "#f2f2f2"
-                              : "white", // Weekend takes precedence over normal working day
-                        }}
+                        align="center"
+                        className={`timesheet-table-cell ${
+                          isWeekend(day + 1)
+                            ? "timesheet-table-cell-weekend"
+                            : ""
+                        } ${
+                          employee[`Day ${day + 1} Working Hours`] === "H"
+                            ? "timesheet-table-cell-H"
+                            : employee[`Day ${day + 1} Working Hours`] === "S"
+                            ? "timesheet-table-cell-S"
+                            : ""
+                        }`}
                         onClick={() =>
                           handleCellClick(employee.AutoID, day + 1)
-                        } // Handle cell click
+                        }
                       >
                         {editingCell &&
                         editingCell.employeeId === employee.AutoID &&
@@ -624,12 +530,17 @@ const TimesheetPage = () => {
               </TableBody>
             </Table>
           </TableContainer>
-        </Box>
+        </Paper>
 
-        {/* Popup box for editing working hours */}
-        <Dialog open={!!editingCell} onClose={() => setEditingCell(null)}>
-          <DialogTitle>Edit Working Hours</DialogTitle>
-          <DialogContent>
+        <Dialog
+          open={!!editingCell}
+          onClose={() => setEditingCell(null)}
+          className="timesheet-dialog"
+        >
+          <DialogTitle className="timesheet-dialog-title">
+            Edit Working Hours
+          </DialogTitle>
+          <DialogContent className="timesheet-dialog-content">
             <Select
               label="Working Hours"
               value={newWorkingHours}
@@ -655,7 +566,7 @@ const TimesheetPage = () => {
               ))}
             </Select>
           </DialogContent>
-          <DialogActions>
+          <DialogActions className="timesheet-dialog-actions">
             <Button onClick={() => setEditingCell(null)}>Cancel</Button>
             <Button onClick={handleUpdateWorkingHours}>Save</Button>
           </DialogActions>

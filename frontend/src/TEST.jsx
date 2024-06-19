@@ -103,7 +103,7 @@ const TimesheetPage = () => {
       try {
         // Fetch employee profile data
         const responseUserProfiles = await axios.get(
-          "http://localhost:5000/api/UserProfiles"
+          "https://hubv2.cyienteurope.com/api/UserProfiles"
         );
 
         // Table filters
@@ -143,7 +143,7 @@ const TimesheetPage = () => {
 
         // Fetch timesheet data
         const responseTimesheet = await axios.get(
-          "http://localhost:5000/api/Timesheet"
+          "https://hubv2.cyienteurope.com/api/Timesheet"
         );
 
         const filteredData = responseTimesheet.data.filter((item) => {
@@ -263,7 +263,7 @@ const TimesheetPage = () => {
       const userId = 'dasni-development';
 
       try {
-        const response = await fetch('http://localhost:5000/api/updateEmployeeHours', {
+        const response = await fetch("https://hubv2.cyienteurope.com/api/updateEmployeeHours", {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -299,10 +299,18 @@ const TimesheetPage = () => {
           p: 3,
         }}
       >
-        <Header
+        {/* <Header
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
           title="TIMESHEET"
           subtitle={`${monthNames[selectedMonth - 1]}, ${selectedYear}`}
-        />
+        /> */}
+
+        <h2 style={{alignItems: "center", display: "flex", justifyContent: "center", fontWeight: "bold", color: "#525252", fontFamily: "Roboto"}}> TIMESHEET </h2>
+        <h3 style={{alignItems: "center", display: "flex", justifyContent: "center", fontWeight: "bold", color: "#08a4dc", fontFamily: "Roboto"}}>{`${monthNames[selectedMonth - 1]}, ${selectedYear}`} </h3>
 
         <Box
           sx={{
@@ -313,7 +321,7 @@ const TimesheetPage = () => {
           }}
         >
           <TextField
-            style={{ width: 150 }}
+            style={{ width: 150}}
             select
             label="Name"
             value={selectedName}
@@ -424,12 +432,12 @@ const TimesheetPage = () => {
           </TextField>
         </Box>
 
-        <Box sx={{ overflowX: "auto", maxWidth: "auto" }}>
+        <Box sx={{ overflowX: "100%", width: "100%", height: "100vh" }}>
           <TableContainer
             component={Paper}
             style={{ border: "1px solid #cfd4d1" }}
           >
-            <Table style={{ tableLayout: "auto", borderCollapse: "collapse" }}>
+            <Table style={{ tableLayout: "auto", borderCollapse: "collapse", overflow: "hidden" }}>
               <TableHead>
                 <TableRow>
                   <TableCell
@@ -440,7 +448,10 @@ const TimesheetPage = () => {
                       fontSize: "15px",
                       left: 0,
                       zIndex: 2,
-                      backgroundColor: "#e8e6e6",
+                      backgroundColor: "#08a4dc",
+                      color: "white",
+                      textAlign: "center",
+                      padding: "10px",
                     }}
                   >
                     Name
@@ -453,7 +464,10 @@ const TimesheetPage = () => {
                       fontSize: "15px",
                       left: 0,
                       zIndex: 1,
-                      backgroundColor: "#e8e6e6",
+                      backgroundColor: "#08a4dc",
+                      color: "white",
+                      textAlign: "center",
+                      padding: "10px",
                     }}
                   >
                     Role
@@ -466,7 +480,10 @@ const TimesheetPage = () => {
                       fontSize: "15px",
                       left: 0,
                       zIndex: 1,
-                      backgroundColor: "#e8e6e6",
+                      backgroundColor: "#08a4dc",
+                      color: "white",
+                      textAlign: "center",
+                      padding: "10px",
                     }}
                   >
                     Team
@@ -479,7 +496,10 @@ const TimesheetPage = () => {
                       fontSize: "15px",
                       left: 0,
                       zIndex: 1,
-                      backgroundColor: "#e8e6e6",
+                      backgroundColor: "#08a4dc",
+                      color: "white",
+                      textAlign: "center",
+                      padding: "10px",
                     }}
                   >
                     Agency
@@ -491,10 +511,14 @@ const TimesheetPage = () => {
                         whiteSpace: "nowrap",
                         border: "1px solid #cfd4d1",
                         fontWeight: "bold",
-                        fontSize: "15px",
+                        fontSize: "12px",
                         left: 0,
                         zIndex: 1,
-                        backgroundColor: "#e8e6e6",
+                        backgroundColor: "#08a4dc",
+                        color: "white",
+                        textAlign: "center",
+                        padding: "10px",
+                        lineHeight: "1.2"
                       }}
                     >
                       {getDayNameAndDate(day + 1)}
@@ -510,9 +534,10 @@ const TimesheetPage = () => {
                         whiteSpace: "nowrap",
                         border: "1px solid #cfd4d1",
                         fontSize: "12.5px",
+                        fontWeight: "bold",
                         left: 0,
                         zIndex: 1,
-                        backgroundColor: "#e8e6e6",
+                        padding: "5px",
                       }}
                     >
                       {employee.Name}
@@ -522,6 +547,9 @@ const TimesheetPage = () => {
                         whiteSpace: "nowrap",
                         border: "1px solid #cfd4d1",
                         fontSize: "12.5px",
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        padding: "5px",
                       }}
                     >
                       {employee.Role}
@@ -531,6 +559,9 @@ const TimesheetPage = () => {
                         whiteSpace: "nowrap",
                         border: "1px solid #cfd4d1",
                         fontSize: "12.5px",
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        padding: "5px",
                       }}
                     >
                       {employee.Team}
@@ -540,6 +571,9 @@ const TimesheetPage = () => {
                         whiteSpace: "nowrap",
                         border: "1px solid #cfd4d1",
                         fontSize: "12.5px",
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        padding: "5px",
                       }}
                     >
                       {employee.Agency}
@@ -551,7 +585,10 @@ const TimesheetPage = () => {
                           whiteSpace: "nowrap",
                           border: "1px solid #cfd4d1",
                           cursor: "pointer",
-                          fontSize: "12.5px",
+                          fontSize: "12px",
+                          fontWeight: "bold",
+                          textAlign: "center",
+                          padding: "5px",
                           backgroundColor:
                             employee[`Day ${day + 1} Working Hours`] === "H"
                               ? "#bdeafc"

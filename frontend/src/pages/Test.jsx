@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useMode } from "./components/ColorTheme";
-import "./resources/Timesheet.css";
+import { useMode } from "../components/ColorTheme";
+import "../resources/Timesheet.css";
 import {
   Box,
   ThemeProvider,
